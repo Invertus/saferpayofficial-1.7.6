@@ -1,0 +1,49 @@
+name: release
+on:
+  release:
+    types: [ published, edited, updated, drafted]
+jobs:
+  build_release:
+    env:
+      MODULE_NAME: saferpayofficial
+    name: build_release
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Install PHP 5.6
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '5.6'
+
+      - name: build
+        # IF YOU EDIT THIS, DON'T FORGET TO EDIT deploy.yml
+        run: |
+          composer install --no-dev --optimize-autoloader --classmap-authoritative
+          composer dump-autoload --no-dev --optimize --classmap-authoritative
+          cp .github/.htaccess vendor/.htaccess
+          rm -rf .git .github tests .php-cs-fixer.php Makefile cypress* docker-compose*.yml package.json package-lock.json .docker README.md .editorconfig .gitignore .php_cs.dist browserstack.json
+          mkdir ${{ env.MODULE_NAME }}
+          rsync -Rr ./ ./${{ env.MODULE_NAME }}
+          chmod -R 777 ${{ env.MODULE_NAME }}/var/cache
+          shopt -s extglob
+          rm -r !(${{ env.MODULE_NAME }})
+          find . -maxdepth 1 -type f -exec rm "{}" \;
+          cd ${{ env.MODULE_NAME }} && rm -rf ${{ env.MODULE_NAME }}
+      - name: Update release
+        id: update_release
+        uses: tubone24/update_release@v1.0
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.github_token }}
+        with:
+          upload_url: ${{ steps.update_release.outputs.upload_url }}
+          asset_path: ./saferpayofficial.zip
+          asset_name: saferpayofficial.zip
+          asset_content_type: application/zip
