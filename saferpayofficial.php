@@ -47,7 +47,7 @@ class SaferPayOfficial extends PaymentModule
         $this->tab = 'payments_gateways';
         $this->ps_versions_compliancy = [
             'min' => '1.6.1.0',
-            'max' => _PS_VERSION_,
+            'max' => '1.7.6.0',
         ];
         parent::__construct($name);
 
