@@ -51,20 +51,6 @@ class SaferPayConfig
     const TEST_SUFFIX = '_TEST';
     const API_VERSION = '1.45';
 
-    const HOOKS = [
-        'paymentOptions',
-        'displayPayment',
-        'displayAdminOrder',
-        'actionFrontControllerSetMedia',
-        'displayCustomerAccount',
-        'paymentReturn',
-        'actionEmailSendBefore',
-        'displayAdminOrderTabContent',
-        'actionAdminControllerSetMedia',
-        'actionObjectOrderPaymentAddAfter',
-        'displayOrderConfirmation'
-    ];
-
     const PAYMENT_METHODS = [
         self::PAYMENT_ALIPAY,
         self::PAYMENT_AMEX,
