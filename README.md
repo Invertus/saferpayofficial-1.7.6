@@ -4,10 +4,10 @@
     </a>
 </p>
 
-<h1 align="center">Saferpay Official Module for PrestaShop up to 1.7.6.0</h1>
-
 > [!NOTE]  
-> Module is compatible up to 1.7.6.0 PrestaShop version
+> This module is only compatible with PrestaShop versions **lower than 1.7.6.1.**\
+> A module compatible with higher versions can be found here: [Saferpayofficial](https://github.com/Invertus/saferpayofficial)
+
 
 Saferpay - Easy, flexible, secure - The comprehensive e-payment solution from SIX Payment Services for easier and more secure payment in your online shop.
 
