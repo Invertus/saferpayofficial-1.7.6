@@ -4,7 +4,7 @@
     </a>
 </p>
 
-<h1 align="center">Saferpay Official Module for PrestaShop up to 1.7.6.0</h1>
+<h1 align="center">Saferpay Official Module</h1>
 
 > [!NOTE]  
 > This module is only compatible with PrestaShop versions **lower than 1.7.6.1.**\  
