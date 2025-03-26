@@ -4,8 +4,6 @@
     </a>
 </p>
 
-<h1 align="center">Saferpay Official Module</h1>
-
 > [!NOTE]  
 > This module is only compatible with PrestaShop versions **lower than 1.7.6.1.**\  
 > A module compatible with higher versions can be found here: [Saferpayofficial](https://github.com/Invertus/saferpayofficial)
