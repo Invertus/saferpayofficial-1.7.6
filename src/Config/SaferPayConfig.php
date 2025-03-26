@@ -466,6 +466,10 @@ class SaferPayConfig
         return (bool) Configuration::get(self::SAFERPAY_DEBUG_MODE);
     }
 
+    public static function isVersion17()
+    {
+        return (bool) version_compare(_PS_VERSION_, '1.7', '>=');
+    }
     public static function isVersionAbove177()
     {
         return (bool) version_compare(_PS_VERSION_, '1.7.7', '>=');
