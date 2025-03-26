@@ -187,3 +187,4 @@
 - Fixed minor issues with PrestaShop 1.6 compatibility
 - Fixed issues with default awaiting status on installation
 - Fixed issues with double same statuses in order
+- Fixed issue with failure after user come back after initializing payment
