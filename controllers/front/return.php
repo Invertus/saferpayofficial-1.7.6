@@ -109,7 +109,6 @@ class SaferPayOfficialReturnModuleFrontController extends AbstractSaferPayContro
         $paymentTypeProvider = $this->module->getService(PaymentTypeProvider::class);
 
         if ($paymentTypeProvider->get($orderPayment) === PaymentType::HOSTED_IFRAME) {
-        {
             $order = new Order($this->getOrderId($cartId));
 
             try {
