@@ -5,7 +5,7 @@
 </p>
 
 > [!NOTE]  
-> This module is only compatible with PrestaShop versions **lower than 1.7.6.1.**\
+> This module is only compatible with PrestaShop versions **lower than 1.7.5.2.**\
 > A module compatible with higher versions can be found here: [Saferpayofficial](https://github.com/Invertus/saferpayofficial)
 
 
