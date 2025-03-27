@@ -188,3 +188,8 @@
 - Fixed issues with default awaiting status on installation
 - Fixed issues with double same statuses in order
 - Fixed issue with failure after user come back after initializing payment
+- Fixed module installation failure
+- Fixed wrong default Status for Awaiting SaferPay Payment
+- Improved module stability
+- Added new payment method: Reka
+- Bumped API version to 1.45
