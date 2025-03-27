@@ -60,6 +60,8 @@ class AbstractSaferPayController extends \ModuleFrontControllerCore
             'info' => $this->info,
         ]);
 
+        // This session function is used to show notification messages between all prestashop version at a front end.
+        // module validator error is ignored, we copied this function from core to be reused in PS1.6
         if (session_status() == PHP_SESSION_ACTIVE) {
             $_SESSION['notifications'] = $notifications;
         } elseif (session_status() == PHP_SESSION_NONE) {
