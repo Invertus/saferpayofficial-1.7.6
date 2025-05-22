@@ -354,7 +354,7 @@ class Installer extends AbstractInstaller
             SaferPayConfig::SAFERPAY_PAYMENT_AUTHORIZED,
             'Payment authorized by Saferpay',
             '#4069e1',
-            false,
+            true,
             true,
             true,
             true,
