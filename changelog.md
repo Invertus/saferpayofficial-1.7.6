@@ -193,3 +193,6 @@
 - Improved module stability
 - Added new payment method: Reka
 - Bumped API version to 1.45
+
+## [1.2.7]
+- Fixed order confirmation email delivery
