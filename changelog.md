@@ -196,3 +196,5 @@
 
 ## [1.2.7]
 - Fixed issue when user is redirected to payment page in Back office when module is disabled
+- Fixed issue when payment option is disabled but showing
+- Fixed order confirmation email delivery
