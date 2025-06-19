@@ -78,11 +78,6 @@ class ApiRequest
 
             return json_decode($response->raw_body);
         } catch (Exception $exception) {
-            $this->logger->error($exception->getMessage(), [
-                'context' => [],
-                'exceptions' => ExceptionUtility::getExceptions($exception)
-            ]);
-
             throw $exception;
         }
     }
