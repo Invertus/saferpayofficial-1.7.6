@@ -40,7 +40,7 @@ class SaferPayOfficial extends PaymentModule
     {
         $this->name = 'saferpayofficial';
         $this->author = 'Invertus';
-        $this->version = '1.2.6';
+        $this->version = '1.2.7';
         $this->module_key = '3d3506c3e184a1fe63b936b82bda1bdf';
         $this->displayName = 'SaferpayOfficial';
         $this->description = 'Saferpay Payment module';
@@ -57,9 +57,6 @@ class SaferPayOfficial extends PaymentModule
 
     public function getContent()
     {
-        if (Configuration::get(\Invertus\SaferPay\Config\SaferPayConfig::USERNAME)) {
-            Tools::redirectAdmin($this->context->link->getAdminLink(self::ADMIN_PAYMENTS_CONTROLLER));
-        }
         Tools::redirectAdmin($this->context->link->getAdminLink(self::ADMIN_SETTINGS_CONTROLLER));
     }
 
