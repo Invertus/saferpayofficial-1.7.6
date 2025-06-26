@@ -33,17 +33,18 @@ jobs:
           rm -r !(${{ env.MODULE_NAME }})
           find . -maxdepth 1 -type f -exec rm "{}" \;
           cd ${{ env.MODULE_NAME }} && rm -rf ${{ env.MODULE_NAME }}
+          cd ../ && zip -r ${{ env.MODULE_NAME }}.zip ${{ env.MODULE_NAME }}/
       - name: Update release
         id: update_release
         uses: tubone24/update_release@v1.0
         env:
           GITHUB_TOKEN: ${{ github.token }}
       - name: Upload Release Asset
-        uses: softprops/action-gh-release@v2
+        uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.github_token }}
         with:
           upload_url: ${{ steps.update_release.outputs.upload_url }}
-          asset_path: ./saferpayofficial.zip
-          asset_name: saferpayofficial.zip
+          asset_path: ./${{ env.MODULE_NAME }}.zip
+          asset_name: ${{ env.MODULE_NAME }}.zip
           asset_content_type: application/zip
