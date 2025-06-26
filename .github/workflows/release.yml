@@ -39,11 +39,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
       - name: Upload Release Asset
-        uses: softprops/action-gh-release@v2
+        uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.github_token }}
         with:
           upload_url: ${{ steps.update_release.outputs.upload_url }}
-          asset_path: ./saferpayofficial.zip
-          asset_name: saferpayofficial.zip
+          asset_path: ./${{ env.MODULE_NAME }}.zip
+          asset_name: ${{ env.MODULE_NAME }}.zip
           asset_content_type: application/zip
