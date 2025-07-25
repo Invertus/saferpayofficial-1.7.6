@@ -29,5 +29,8 @@ if (!defined('_PS_VERSION_')) {
 
 function upgrade_module_1_2_8()
 {
-    return Configuration::updateValue(SaferPayConfig::SAFERPAY_GROUP_CARDS, 0);
+    Configuration::updateValue(SaferPayConfig::SAFERPAY_GROUP_CARDS, 0);
+    Configuration::updateValue(SaferPayConfig::SAFERPAY_SEND_ORDER_CONF_MAIL, 0);
+  
+    return true;
 }
