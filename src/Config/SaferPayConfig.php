@@ -113,7 +113,7 @@ class SaferPayConfig
     const PAYMENT_LASTSCHRIFT = 'DIRECTDEBIT';
     const PAYMENT_ACCOUNTTOACCOUNT = 'ACCOUNTTOACCOUNT';
     const PAYMENT_PAYCONIQ = 'PAYCONIQ';
-    const PAYMENT_CARD = 'CARD';
+    const PAYMENT_CARDS = 'CARD';
     const PAYMENT_POSTFINANCE_PAY = 'POSTFINANCEPAY';
     const PAYMENT_WECHATPAY = 'WECHATPAY';
     const PAYMENT_CLICKTOPAY = 'CLICKTOPAY';
@@ -148,7 +148,7 @@ class SaferPayConfig
         'SOFORTUEBERWEISUNG' => self::PAYMENT_SOFORT,
         'AccountToAccount' => self::PAYMENT_ACCOUNTTOACCOUNT,
         'Payconiq' => self::PAYMENT_PAYCONIQ,
-        'Card' => self::PAYMENT_CARD,
+        'Card' => self::PAYMENT_CARDS,
         'PostFinancePay' => self::PAYMENT_POSTFINANCE_PAY,
         'WeChatPay' => self::PAYMENT_WECHATPAY,
         'Blik' => self::PAYMENT_BLIK,
@@ -239,6 +239,7 @@ class SaferPayConfig
     const SAFERPAY_SEND_ORDER_CONF_MAIL = 'SAFERPAY_SEND_ORDER_CONF_MAIL';
     const SAFERPAY_ALLOW_SAFERPAY_SEND_CUSTOMER_MAIL = 'SAFERPAY_ALLOW_SAFERPAY_SEND_CUSTOMER_MAIL';
     const SAFERPAY_ORDER_CREATION_AFTER_AUTHORIZATION = 'SAFERPAY_ORDER_CREATION_AFTER_AUTHORIZATION';
+    const SAFERPAY_GROUP_CARDS = 'SAFERPAY_GROUP_CARDS';
 
     const STATUS_PS_OS_OUTOFSTOCK_PAID = 'PS_OS_OUTOFSTOCK_PAID';
 
@@ -290,6 +291,21 @@ class SaferPayConfig
         self::ONE_PAGE_CHECKOUT_MODULE,
         self::THE_CHECKOUT_MODULE,
         self::SUPER_CHECKOUT_MODULE,
+    ];
+
+    /**
+     * Card brands that can be grouped under 'Cards' method
+     */
+    const CARD_BRANDS = [
+        self::PAYMENT_AMEX,
+        self::PAYMENT_MAESTRO,
+        self::PAYMENT_MASTERCARD,
+        self::PAYMENT_VISA,
+        self::PAYMENT_VPAY,
+        self::PAYMENT_JCB,
+        self::PAYMENT_DINERS,
+        self::PAYMENT_MYONE,
+        self::PAYMENT_BANCONTACT,
     ];
 
     public static function supportsOrderCapture($paymentMethod)
@@ -455,6 +471,7 @@ class SaferPayConfig
             self::FIELDS_LIBRARY,
             self::FIELDS_LIBRARY . self::TEST_SUFFIX,
             self::SAFERPAY_ORDER_CREATION_AFTER_AUTHORIZATION,
+            self::SAFERPAY_GROUP_CARDS,
             self::SAFERPAY_SEND_ORDER_CONF_MAIL,
         ];
     }
