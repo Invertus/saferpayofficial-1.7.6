@@ -40,20 +40,20 @@ class CardPaymentGroupingService
     public function group(array $paymentMethods, array $allCurrencies): array
     {
         $result = [];
-        $cardMethods = [];
+        $hasCardMethods = false;
 
         foreach ($paymentMethods as $method) {
             if (in_array($method['paymentMethod'], SaferPayConfig::CARD_BRANDS, true)) {
-                $cardMethods[] = $method;
+                $hasCardMethods = true;
             } else {
                 $result[] = $method;
             }
         }
 
-        if (!empty($cardMethods)) {
+        if ($hasCardMethods) {
             $result[] = [
                 'paymentMethod' => SaferPayConfig::PAYMENT_CARDS,
-                'logoUrl' => '',
+                'logoUrl' => '', // TODO: Consider adding a generic logo URL for better UX.
                 'currencies' => $allCurrencies,
             ];
         }
