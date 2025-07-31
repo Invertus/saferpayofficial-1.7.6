@@ -308,6 +308,8 @@ class SaferPayConfig
         self::PAYMENT_BANCONTACT,
     ];
 
+    const SAFERPAY_GROUP_CARDS_LOGO = 'SAFERPAY_GROUP_CARDS_LOGO';
+
     public static function supportsOrderCapture($paymentMethod)
     {
         //payments that DOES NOT SUPPORT capture

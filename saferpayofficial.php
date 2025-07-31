@@ -206,6 +206,10 @@ Thank you for your patience!');
         $logosEnabled = $paymentRepository->getAllActiveLogosNames();
         $logosEnabled = array_column($logosEnabled, 'name');
 
+        if (Configuration::get(\Invertus\SaferPay\Config\SaferPayConfig::SAFERPAY_GROUP_CARDS_LOGO)) {
+            $logosEnabled[] = \Invertus\SaferPay\Config\SaferPayConfig::PAYMENT_CARDS;
+        }
+
         $activePaymentMethods = $paymentRepository->getActivePaymentMethodsNames();
         $activePaymentMethods = array_column($activePaymentMethods, 'name');
 
