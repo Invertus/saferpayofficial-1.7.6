@@ -28,7 +28,7 @@ Before installing the Saferpay module, ensure you have:
 ## Installation
 
 1. **Download the Module**
-   - Get the latest version from [releases page](https://github.com/Invertus/saferpayofficial/releases)
+   - Get the latest version from [releases page](https://github.com/Invertus/saferpayofficial-1.7.6/releases)
 
 2. **Install Dependencies**
    ```bash
