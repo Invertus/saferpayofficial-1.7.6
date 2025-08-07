@@ -206,11 +206,24 @@ Thank you for your patience!');
         $logosEnabled = $paymentRepository->getAllActiveLogosNames();
         $logosEnabled = array_column($logosEnabled, 'name');
 
+        if (Configuration::get(\Invertus\SaferPay\Config\SaferPayConfig::SAFERPAY_GROUP_CARDS_LOGO)) {
+            $logosEnabled[] = \Invertus\SaferPay\Config\SaferPayConfig::PAYMENT_CARDS;
+        }
+
         $activePaymentMethods = $paymentRepository->getActivePaymentMethodsNames();
         $activePaymentMethods = array_column($activePaymentMethods, 'name');
 
         /** @var \Invertus\SaferPay\Provider\CurrencyProvider $currencyProvider */
         $currencyProvider = $this->getService(\Invertus\SaferPay\Provider\CurrencyProvider::class);
+
+        $allCurrencies = $currencyProvider->getAllCurrenciesInArray();
+
+        /** @var \Invertus\SaferPay\Service\CardPaymentGroupingService $cardGroupingService */
+        $cardGroupingService = $this->getService(\Invertus\SaferPay\Service\CardPaymentGroupingService::class);
+
+        if (Configuration::get(\Invertus\SaferPay\Config\SaferPayConfig::SAFERPAY_GROUP_CARDS)) {
+            $paymentMethods = $cardGroupingService->group($paymentMethods, $allCurrencies);
+        }
 
         foreach ($paymentMethods as $paymentMethod) {
             $paymentMethod['paymentMethod'] = str_replace(' ', '', $paymentMethod['paymentMethod']);
@@ -604,6 +617,11 @@ Thank you for your patience!');
             if ((int) Configuration::get(\Invertus\SaferPay\Config\SaferPayConfig::SAFERPAY_SEND_NEW_ORDER_MAIL)) {
                 return true;
             }
+        }
+
+        if ($params['template'] === 'order_conf'
+            && Configuration::get(\Invertus\SaferPay\Config\SaferPayConfig::SAFERPAY_SEND_ORDER_CONF_MAIL)) {
+            return true;
         }
 
         return false;
