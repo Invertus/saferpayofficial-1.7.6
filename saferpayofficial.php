@@ -613,18 +613,20 @@ Thank you for your patience!');
             return true;
         }
 
-        if ($params['template'] === 'new_order') {
-            if ((int) Configuration::get(\Invertus\SaferPay\Config\SaferPayConfig::SAFERPAY_SEND_NEW_ORDER_MAIL)) {
-                return true;
-            }
+        // Define which email templates should be controlled for SaferPay orders
+        $controlledTemplates = [
+            'new_order' => \Invertus\SaferPay\Config\SaferPayConfig::SAFERPAY_SEND_NEW_ORDER_MAIL,
+            'order_conf' => \Invertus\SaferPay\Config\SaferPayConfig::SAFERPAY_SEND_ORDER_CONF_MAIL,
+        ];
+
+        // Check if this template should be controlled
+        if (isset($controlledTemplates[$params['template']])) {
+            $configKey = $controlledTemplates[$params['template']];
+            return (bool) Configuration::get($configKey);
         }
 
-        if ($params['template'] === 'order_conf'
-            && Configuration::get(\Invertus\SaferPay\Config\SaferPayConfig::SAFERPAY_SEND_ORDER_CONF_MAIL)) {
-            return true;
-        }
-
-        return false;
+        // Allow all other email templates (including order status changes like 'shipped')
+        return true;
     }
 
     public function hookActionAdminControllerSetMedia()
