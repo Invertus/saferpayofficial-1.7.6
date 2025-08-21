@@ -597,36 +597,21 @@ Thank you for your patience!');
 
     public function hookActionEmailSendBefore($params)
     {
-        if (!isset($params['cart']->id)) {
+        try {
+            /** @var \Invertus\SaferPay\Service\SaferPayEmailTemplateControlServiceInterface $emailTemplateControlService */
+            $emailTemplateControlService = $this->getService(\Invertus\SaferPay\Service\SaferPayEmailTemplateControlServiceInterface::class);
+
+            return $emailTemplateControlService->shouldSendEmail($params);
+        } catch (\Exception $e) {
+            /** @var \Invertus\SaferPay\Logger\LoggerInterface $logger */
+            $logger = $this->getService(\Invertus\SaferPay\Logger\LoggerInterface::class);
+
+            $logger->error('Unable to check if email should be sent. Sending email anyway', [
+                'exceptions' => \Invertus\SaferPay\Utility\ExceptionUtility::getExceptions($e),
+            ]);
+
             return true;
         }
-        $cart = new Cart($params['cart']->id);
-
-        /** @var \Order $order */
-        $order = Order::getByCartId($cart->id);
-
-        if (!$order) {
-            return true;
-        }
-
-        if ($order->module !== $this->name) {
-            return true;
-        }
-
-        // Define which email templates should be controlled for SaferPay orders
-        $controlledTemplates = [
-            'new_order' => \Invertus\SaferPay\Config\SaferPayConfig::SAFERPAY_SEND_NEW_ORDER_MAIL,
-            'order_conf' => \Invertus\SaferPay\Config\SaferPayConfig::SAFERPAY_SEND_ORDER_CONF_MAIL,
-        ];
-
-        // Check if this template should be controlled
-        if (isset($controlledTemplates[$params['template']])) {
-            $configKey = $controlledTemplates[$params['template']];
-            return (bool) Configuration::get($configKey);
-        }
-      
-        // Allow all other email templates (including order status changes like 'shipped')
-        return true;
     }
 
     public function hookActionAdminControllerSetMedia()
