@@ -597,34 +597,21 @@ Thank you for your patience!');
 
     public function hookActionEmailSendBefore($params)
     {
-        if (!isset($params['cart']->id)) {
+        try {
+            /** @var \Invertus\SaferPay\Service\SaferPayEmailTemplateControlServiceInterface $emailTemplateControlService */
+            $emailTemplateControlService = $this->getService(\Invertus\SaferPay\Service\SaferPayEmailTemplateControlServiceInterface::class);
+
+            return $emailTemplateControlService->shouldSendEmail($params);
+        } catch (\Exception $e) {
+            /** @var \Invertus\SaferPay\Logger\LoggerInterface $logger */
+            $logger = $this->getService(\Invertus\SaferPay\Logger\LoggerInterface::class);
+
+            $logger->error('Unable to check if email should be sent. Sending email anyway', [
+                'exceptions' => \Invertus\SaferPay\Utility\ExceptionUtility::getExceptions($e),
+            ]);
+
             return true;
         }
-        $cart = new Cart($params['cart']->id);
-
-        /** @var \Order $order */
-        $order = Order::getByCartId($cart->id);
-
-        if (!$order) {
-            return true;
-        }
-
-        if ($order->module !== $this->name) {
-            return true;
-        }
-
-        if ($params['template'] === 'new_order') {
-            if ((int) Configuration::get(\Invertus\SaferPay\Config\SaferPayConfig::SAFERPAY_SEND_NEW_ORDER_MAIL)) {
-                return true;
-            }
-        }
-
-        if ($params['template'] === 'order_conf'
-            && Configuration::get(\Invertus\SaferPay\Config\SaferPayConfig::SAFERPAY_SEND_ORDER_CONF_MAIL)) {
-            return true;
-        }
-
-        return false;
     }
 
     public function hookActionAdminControllerSetMedia()
