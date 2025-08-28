@@ -253,6 +253,13 @@ class AdminSaferPayOfficialSettingsController extends ModuleAdminController
                     'cast' => 'intval',
                     'type' => 'bool',
                 ],
+                SaferPayConfig::SAFERPAY_SEND_ORDER_CONF_MAIL => [
+                    'title' => $this->module->l('Send order confirmation mail on payment completion'),
+                    'desc' => $this->module->l('Send an email from Saferpay on payment completion'),
+                    'validation' => 'isBool',
+                    'cast' => 'intval',
+                    'type' => 'bool',
+                ],
                 SaferPayConfig::SAFERPAY_SEND_NEW_ORDER_MAIL . '_description' => [
                     'type' => 'desc',
                     'class' => 'col-lg-12',
@@ -322,6 +329,20 @@ class AdminSaferPayOfficialSettingsController extends ModuleAdminController
                     ],
                     'desc' => $this->module->l('Select the option to determine whether the order should be created'),
                     'form_group_class' => 'thumbs_chose',
+                ],
+                SaferPayConfig::SAFERPAY_GROUP_CARDS => [
+                    'type' => 'bool',
+                    'title' => $this->module->l("Group debit/credit cards as 'Cards' in checkout", self::FILE_NAME),
+                    'validation' => 'isBool',
+                    'cast' => 'intval',
+                    'desc' => $this->module->l("If enabled, all supported card brands (Visa, Mastercard, Amex, etc.) will be grouped and shown as a single 'Cards' payment method at checkout.", self::FILE_NAME),
+                ],
+                SaferPayConfig::SAFERPAY_GROUP_CARDS_LOGO => [
+                    'type' => 'bool',
+                    'title' => $this->module->l("Show 'Cards' payment method logo", self::FILE_NAME),
+                    'validation' => 'isBool',
+                    'cast' => 'intval',
+                    'desc' => $this->module->l("If enabled, a logo for the grouped 'Cards' payment method will be displayed at checkout.", self::FILE_NAME),
                 ],
             ],
             'buttons' => [

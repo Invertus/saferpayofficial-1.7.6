@@ -40,7 +40,7 @@ class SaferPayOfficial extends PaymentModule
     {
         $this->name = 'saferpayofficial';
         $this->author = 'Invertus';
-        $this->version = '1.2.7';
+        $this->version = '1.2.8';
         $this->module_key = '3d3506c3e184a1fe63b936b82bda1bdf';
         $this->displayName = 'SaferpayOfficial';
         $this->description = 'Saferpay Payment module';
@@ -206,11 +206,24 @@ Thank you for your patience!');
         $logosEnabled = $paymentRepository->getAllActiveLogosNames();
         $logosEnabled = array_column($logosEnabled, 'name');
 
+        if (Configuration::get(\Invertus\SaferPay\Config\SaferPayConfig::SAFERPAY_GROUP_CARDS_LOGO)) {
+            $logosEnabled[] = \Invertus\SaferPay\Config\SaferPayConfig::PAYMENT_CARDS;
+        }
+
         $activePaymentMethods = $paymentRepository->getActivePaymentMethodsNames();
         $activePaymentMethods = array_column($activePaymentMethods, 'name');
 
         /** @var \Invertus\SaferPay\Provider\CurrencyProvider $currencyProvider */
         $currencyProvider = $this->getService(\Invertus\SaferPay\Provider\CurrencyProvider::class);
+
+        $allCurrencies = $currencyProvider->getAllCurrenciesInArray();
+
+        /** @var \Invertus\SaferPay\Service\CardPaymentGroupingService $cardGroupingService */
+        $cardGroupingService = $this->getService(\Invertus\SaferPay\Service\CardPaymentGroupingService::class);
+
+        if (Configuration::get(\Invertus\SaferPay\Config\SaferPayConfig::SAFERPAY_GROUP_CARDS)) {
+            $paymentMethods = $cardGroupingService->group($paymentMethods, $allCurrencies);
+        }
 
         foreach ($paymentMethods as $paymentMethod) {
             $paymentMethod['paymentMethod'] = str_replace(' ', '', $paymentMethod['paymentMethod']);
@@ -584,29 +597,21 @@ Thank you for your patience!');
 
     public function hookActionEmailSendBefore($params)
     {
-        if (!isset($params['cart']->id)) {
+        try {
+            /** @var \Invertus\SaferPay\Service\SaferPayEmailTemplateControlServiceInterface $emailTemplateControlService */
+            $emailTemplateControlService = $this->getService(\Invertus\SaferPay\Service\SaferPayEmailTemplateControlServiceInterface::class);
+
+            return $emailTemplateControlService->shouldSendEmail($params);
+        } catch (\Exception $e) {
+            /** @var \Invertus\SaferPay\Logger\LoggerInterface $logger */
+            $logger = $this->getService(\Invertus\SaferPay\Logger\LoggerInterface::class);
+
+            $logger->error('Unable to check if email should be sent. Sending email anyway', [
+                'exceptions' => \Invertus\SaferPay\Utility\ExceptionUtility::getExceptions($e),
+            ]);
+
             return true;
         }
-        $cart = new Cart($params['cart']->id);
-
-        /** @var \Order $order */
-        $order = Order::getByCartId($cart->id);
-
-        if (!$order) {
-            return true;
-        }
-
-        if ($order->module !== $this->name) {
-            return true;
-        }
-
-        if ($params['template'] === 'new_order') {
-            if ((int) Configuration::get(\Invertus\SaferPay\Config\SaferPayConfig::SAFERPAY_SEND_NEW_ORDER_MAIL)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     public function hookActionAdminControllerSetMedia()
