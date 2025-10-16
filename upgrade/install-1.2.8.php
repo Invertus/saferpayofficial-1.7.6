@@ -62,7 +62,6 @@ function upgrade_module_1_2_8()
 
     // Add indexes for saferpay_card_alias table
     $cardAliasIndexes = [
-        "ALTER TABLE `" . _DB_PREFIX_ . "saferpay_card_alias` ADD INDEX `idx_id_customer` (`id_customer`)",
         "ALTER TABLE `" . _DB_PREFIX_ . "saferpay_card_alias` ADD INDEX `idx_payment_method` (`payment_method`)",
         "ALTER TABLE `" . _DB_PREFIX_ . "saferpay_card_alias` ADD INDEX `idx_customer_payment` (`id_customer`, `payment_method`)",
         "ALTER TABLE `" . _DB_PREFIX_ . "saferpay_card_alias` ADD INDEX `idx_valid_till` (`valid_till`)",
