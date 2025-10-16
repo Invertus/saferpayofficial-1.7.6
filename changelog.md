@@ -202,3 +202,4 @@
 ## [1.2.8]
 - Added new setting to group debit/credit cards as 'Cards' in checkout
 - Added new setting to send order confirmation mail on payment completion
+- Optimized database performance
