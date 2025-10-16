@@ -241,7 +241,12 @@ class Installer extends AbstractInstaller
             `refunded` tinyint(1) DEFAULT 0,
             `canceled` tinyint(1) DEFAULT 0,
             `authorized` tinyint(1) DEFAULT 0,
-            `pending` tinyint(1) DEFAULT 0
+            `pending` tinyint(1) DEFAULT 0,
+            INDEX `idx_id_order` (`id_order`),
+            INDEX `idx_id_cart` (`id_cart`),
+            INDEX `idx_id_customer` (`id_customer`),
+            INDEX `idx_transaction_id` (`transaction_id`),
+            INDEX `idx_status_flags` (`authorized`, `captured`, `pending`)
                 ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci'
         );
     }
@@ -272,7 +277,10 @@ class Installer extends AbstractInstaller
             `card_number` VARCHAR(64) NOT NULL,
             `dcc_value` INTEGER(32) DEFAULT NULL,
             `dcc_currency_code` VARCHAR(64) DEFAULT NULL,
-            `authorized` tinyint(1) DEFAULT 0
+            `authorized` tinyint(1) DEFAULT 0,
+            INDEX `idx_id_saferpay_order` (`id_saferpay_order`),
+            INDEX `idx_payment_method` (`payment_method`),
+            INDEX `idx_brand` (`brand`)
                 ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci'
         );
     }
@@ -290,7 +298,11 @@ class Installer extends AbstractInstaller
             `payment_method` VARCHAR(64) NOT NULL,
             `valid_till` datetime NOT NULL,
             `date_add` datetime NOT NULL,
-            `date_upd` datetime NOT NULL
+            `date_upd` datetime NOT NULL,
+            INDEX `idx_payment_method` (`payment_method`),
+            INDEX `idx_customer_payment` (`id_customer`, `payment_method`),
+            INDEX `idx_valid_till` (`valid_till`),
+            INDEX `idx_alias_id` (`alias_id`)
                 ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci'
         );
     }
@@ -322,7 +334,10 @@ class Installer extends AbstractInstaller
             `transaction_id` VARCHAR(64) NOT NULL,
             `amount` INTEGER(20) NOT NULL,
             `currency` VARCHAR(64) NOT NULL,
-            `status` VARCHAR(64) NOT NULL
+            `status` VARCHAR(64) NOT NULL,
+            INDEX `idx_id_saferpay_order` (`id_saferpay_order`),
+            INDEX `idx_id_order` (`id_order`),
+            INDEX `idx_transaction_id` (`transaction_id`)
                 ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci'
         );
     }
