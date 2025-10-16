@@ -299,7 +299,6 @@ class Installer extends AbstractInstaller
             `valid_till` datetime NOT NULL,
             `date_add` datetime NOT NULL,
             `date_upd` datetime NOT NULL,
-            INDEX `idx_id_customer` (`id_customer`),
             INDEX `idx_payment_method` (`payment_method`),
             INDEX `idx_customer_payment` (`id_customer`, `payment_method`),
             INDEX `idx_valid_till` (`valid_till`),
